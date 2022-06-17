@@ -5,39 +5,30 @@ PORT = 6060
 BUFFER_SIZE = 1024
 
 class Client:
-    def __init__(self, nickname: str):
+    def __init__(self):
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.connect_to_chat_room()
-
-    def connect_to_chat_room(self):
         self.client.connect((HOST, PORT))
-
-    def send_message(self):
-        while 1:
-            message = f"[{nickname}] {input()}"
-            self.client.send(message.encode("ascii"))
-
-    def receive(self):
-        while 1:
-            try:
-                message = self.client.recv(BUFFER_SIZE).decode("ascii")
-                if message == "NICK":
-                    self.client.send(nickname.encode("ascii"))
-                else:
-                    print(message)
-            except:
-                self.client.close()
-                break
+        self.nickname = "Unknown user"
 
     def run(self):
-        received_thread = threading.Thread(target=self.receive)
-        received_thread.start()
+        nickname = input("Qual o seu nickname? ")
 
-        write_thread = threading.Thread(target=self.send_message)
-        write_thread.start()
+        if not self.nickname.isspace():
+            self.nickname = nickname
+
+        self.client.send(self.nickname.encode())
+        # self.nickname = self.client.recv(BUFFER_SIZE).decode()
+        print(f"{self.nickname} entrou no chat!")
+
+        while 1:
+            # received_message = self.client.recv(BUFFER_SIZE).decode()
+            # print(f"[{self.nickname}] {received_message}")
+            # self.client.send(message.encode())
+            message = input(f"[{self.nickname}] ")
+            print(f"CURRENT MESSAGE -> {message}")
+            self.client.send(message.encode())
 
 
 if __name__ == "__main__":
-    nickname = input("Coloque seu nickname: ")
-    client = Client(nickname)
+    client = Client()
     client.run()
