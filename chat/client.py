@@ -17,15 +17,10 @@ class Client:
             self.nickname = nickname
 
         self.client.send(self.nickname.encode())
-        # self.nickname = self.client.recv(BUFFER_SIZE).decode()
         print(f"{self.nickname} entrou no chat!")
 
         while 1:
-            # received_message = self.client.recv(BUFFER_SIZE).decode()
-            # print(f"[{self.nickname}] {received_message}")
-            # self.client.send(message.encode())
             message = input(f"[{self.nickname}] ")
-            print(f"CURRENT MESSAGE -> {message}")
             self.client.send(message.encode())
 
 
