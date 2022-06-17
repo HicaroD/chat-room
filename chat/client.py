@@ -13,7 +13,7 @@ class Client:
     def run(self):
         nickname = input("Qual o seu nickname? ")
 
-        if not self.nickname.isspace():
+        if not self.nickname.isspace() or not self.nickname:
             self.nickname = nickname
 
         self.client.send(self.nickname.encode())
